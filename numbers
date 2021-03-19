@@ -1,0 +1,50 @@
+fun factorize(b : Int) : HashMap<Int, Int> {
+    var i = 2
+    var a = b
+    var res = HashMap<Int, Int>()
+    while (i * i <= a) {
+        while ((a % i) == 0) {
+            if (!res.containsKey(i))
+                res[i] = 0
+            res[i] = res[i]!! + 1
+            a /= i
+        }
+        i++
+    }
+    if (a > 1)
+    {
+        if (!res.containsKey(a))
+            res[a] = 0
+        res[a] = res[a]!! + 1
+    }
+    return res
+}
+ 
+fun max(a : Long, b : Long) : Long {
+    return if (a > b) a else b
+}
+ 
+fun main() {
+    val t = readLine()!!.toInt()
+    for (k in 0 until t) {
+        var (a, b) = readLine()!!.split(' ').map(String::toLong)
+        val res = factorize(b.toInt())
+        var ans : Long = 0
+        for (i in res) {
+            var pp = a
+            var step = 0
+            while ((pp % i.key) == 0L) {
+                step++
+                pp /= i.key
+            }
+            var j = 0
+            while (j < i.value - 1 && j < step)
+            {
+                pp *= i.key
+                j++
+            }
+            ans = max(ans, pp)
+        }
+        println(ans)
+    }
+}
